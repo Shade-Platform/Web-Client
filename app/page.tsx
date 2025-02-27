@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ModeToggle } from "@/components/mode-toggle";
 
 export default function Home() {
   return (
@@ -19,6 +20,9 @@ export default function Home() {
               app/page.tsx
             </code>
             .
+          </li>
+          <li className="mb-2">
+            This nice little button was created by the one and only danny. <ModeToggle />
           </li>
           <li>Save and see your changes instantly.</li>
         </ol>
