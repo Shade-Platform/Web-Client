@@ -8,9 +8,9 @@ import { Toggle } from "./ui/toggle";
 export function ModeToggle() {
   const { theme, setTheme } = useTheme();
 
-  return ( theme === 'light'
-          ? <Toggle onPressedChange={() => setTheme('dark')}><Moon /></Toggle>
-          : <Toggle onPressedChange={() => setTheme('light')}><Sun /></Toggle>
+  return (theme === 'light'
+    ? <Toggle onPressedChange={() => setTheme('dark')}><Moon /></Toggle>
+    : <Toggle onPressedChange={() => setTheme('light')}><Sun /></Toggle>
   );
 }
 
