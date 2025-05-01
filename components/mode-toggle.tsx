@@ -8,9 +8,10 @@ import { Toggle } from "./ui/toggle";
 export function ModeToggle() {
   const { theme, setTheme } = useTheme();
 
+  // TODO: Discuss whether it should be Sun to change to light mode, or Sun when light mode is on.
   return ( theme === 'light'
-          ? <Toggle onPressedChange={() => setTheme('dark')}><Moon /></Toggle>
-          : <Toggle onPressedChange={() => setTheme('light')}><Sun /></Toggle>
+          ? <Toggle variant="default" onPressedChange={() => setTheme('dark')}><Moon /></Toggle>
+          : <Toggle variant="default" onPressedChange={() => setTheme('light')}><Sun /></Toggle>
   );
 }
 
