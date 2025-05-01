@@ -7,7 +7,7 @@ import  FAQ  from "./FAQ";
 import { Pricing } from "./Pricing";
 import Contact from  "./Contact"
 
-export default function Home() {
+const Home : React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen justify-center items-center px-8">
       <Navbar />
@@ -21,3 +21,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default Home;

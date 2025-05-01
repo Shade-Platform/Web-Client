@@ -1,52 +1,30 @@
-import { AppSidebar } from "./app-sidebar"
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { Separator } from "@/components/ui/separator"
-import {
-    SidebarInset,
-    SidebarProvider,
-    SidebarTrigger,
-} from "@/components/ui/sidebar"
+"use client"
 
-export default function DashboardPage() {
-    return (
-        <SidebarProvider>
-            <AppSidebar />
-            <SidebarInset>
-                <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-                    <div className="flex items-center gap-2 px-4">
-                        <SidebarTrigger className="-ml-1" />
-                        <Separator orientation="vertical" className="mr-2 h-4" />
-                        <Breadcrumb>
-                            <BreadcrumbList>
-                                <BreadcrumbItem className="hidden md:block">
-                                    <BreadcrumbLink href="#">
-                                        Building Your Application
-                                    </BreadcrumbLink>
-                                </BreadcrumbItem>
-                                <BreadcrumbSeparator className="hidden md:block" />
-                                <BreadcrumbItem>
-                                    <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                                </BreadcrumbItem>
-                            </BreadcrumbList>
-                        </Breadcrumb>
-                    </div>
-                </header>
-                <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                    <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                        <div className="aspect-video rounded-xl bg-muted/50" />
-                        <div className="aspect-video rounded-xl bg-muted/50" />
-                        <div className="aspect-video rounded-xl bg-muted/50" />
-                    </div>
-                    <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
-                </div>
-            </SidebarInset>
-        </SidebarProvider>
-    )
+import DashboardCard from "./_components/card";
+import { Accordion, AccordionItem, AccordionContent, AccordionTrigger } from "@/components/ui/accordion";
+import Chart from "./_components/chart";
+
+const Dashboard : React.FC = () => {
+  return (
+    <div className="flex items-start justify-items-center min-h-screen p-8 sm:p-20">
+      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start mx-auto">
+        <h1 className="text-3xl font-bold">Dashboard</h1>
+        <Accordion  defaultValue="Today" type="single" collapsible className="w-full min-w-4xl">
+          <AccordionItem  value="Today">
+            <AccordionTrigger>Today</AccordionTrigger>
+            <AccordionContent>
+              <div className="flex gap-4 justify-center sm:justify-start">
+                <DashboardCard title="Total Running Containers" value={6} pastValue={5} />
+                <DashboardCard title="Today's Deployments" value={300} pastValue={320}/>
+                <DashboardCard title="Active Users" value={239} pastValue={250} />
+                <DashboardCard title="New Users" value={1156} pastValue={1000} />
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+        <Chart />
+      </main>
+    </div>
+  );
 }
+export default Dashboard;
