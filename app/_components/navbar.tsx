@@ -5,12 +5,10 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuContent,
-  NavigationMenuTrigger,
   navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu"
-import Link from "next/link";
-import { ModeToggle } from "@/components/mode-toggle";
+import Link from "next/link"
+import { ModeToggle } from "@/components/mode-toggle"
 
 const Navbar: React.FC = () => {
   return (
@@ -21,18 +19,14 @@ const Navbar: React.FC = () => {
             <ModeToggle />
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link href="/dashboard" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                Dashboard                
-              </NavigationMenuLink>
-            </Link>
+            <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+              <Link href="/dashboard">Dashboard</Link>
+            </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-      <NavigationMenu>
-      </NavigationMenu>
     </nav>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar
