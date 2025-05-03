@@ -26,7 +26,7 @@ export function SocialLoginOptions() {
         variant="outline_gray"
         className="h-14 w-full text-lg font-medium transition-all duration-200 hover:scale-[1.02] rounded-3xl"
       >
-        <Mail className="h-5 w-5 text-gray-600" />
+        <Mail className="h-5 w-5 text-gray-600 dark:text-gray-300" />
         Sign in with Email
       </Button>
     </div>
