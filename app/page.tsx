@@ -3,11 +3,11 @@ import { Hero } from "./Hero";
 import { About } from "./About";
 import { Footer } from "./Footer";
 import { Features } from "./Features";
-import  FAQ  from "./FAQ";
-import { Pricing } from "./Pricing";
-import Contact from  "./Contact"
+import FAQ from "./FAQ";
+import { Pricing } from "./Pricing"; // Ensure this import is correct
+import Contact from "./Contact";
 
-const Home : React.FC = () => {
+const Page: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen justify-center items-center px-8">
       <Navbar />
@@ -15,11 +15,11 @@ const Home : React.FC = () => {
       <About />
       <Features />
       <FAQ />
-      <Pricing />
+      <Pricing /> {/* Pricing component here */}
       <Contact />
       <Footer />
     </div>
   );
-}
+};
 
-export default Home;
+export default Page;
