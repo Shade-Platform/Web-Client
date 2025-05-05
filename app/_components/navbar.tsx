@@ -31,6 +31,13 @@ const Navbar: React.FC = () => {
               <Link href="/login">Login</Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
+
+          <NavigationMenuItem>
+            <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+              <Link href="/signup">Sign Up</Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+
         </NavigationMenuList>
       </NavigationMenu>
     </nav>
