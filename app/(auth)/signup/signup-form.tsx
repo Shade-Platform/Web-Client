@@ -12,13 +12,56 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import { Eye, EyeOff, CheckCircle, Circle } from "lucide-react"
+import { useRouter } from 'next/navigation';
 
 export function SignupForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+  const router = useRouter()
+
+  const[email, setEmail] = useState("")
+  const [name, setName] = useState("")
   const [password, setPassword] = useState("")
+  const [repeatPassword, setRepeatPassword] = useState("")
+
+  const signupHandler = async () => {
+    if (email == "" || name == "" || password == "" || repeatPassword == "") {
+      console.error("fields are empty")
+    }
+
+    if (password !== repeatPassword) {
+      console.error("passwords doens't match")
+      return
+    }
+
+    try {
+      const response = await fetch("http://127.0.0.1:8080/auth/signup/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          name,
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.text();
+        console.error("Signup failed:", error);
+        return;
+      }
+
+      const result = await response.json();
+      console.log("Signup successful:", result);
+      router.push("/login")
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  }
 
   const togglePasswordVisibility = () => setIsPasswordVisible((prev) => !prev)
 
@@ -45,17 +88,21 @@ export function SignupForm({
                 <Input
                   id="email"
                   type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="shade@example.com"
                   required
                   className="!border-2 !border-solid !border-gray-400 px-5 py-4 h-14 text-lg"
                 />
               </div>
               <div className="grid gap-3">
-                <Label htmlFor="phone" className="text-base font-medium">
-                  Phone
+                <Label htmlFor="name" className="text-base font-medium">
+                  Name
                 </Label>
                 <Input
-                  id="phone"
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   type="text"
                   required
                   className="!border-2 !border-solid !border-gray-400 px-5 py-4 h-14 text-lg"
@@ -135,15 +182,18 @@ export function SignupForm({
                 <Input
                   id="password-repeat"
                   type={isPasswordVisible ? "text" : "password"}
+                  value={repeatPassword}
+                  onChange={(e) => setRepeatPassword(e.target.value)}
                   required
                   className="!border-2 !border-solid !border-gray-400 px-5 py-4 h-14 text-lg"
                 />
               </div>
               <Button
-                type="submit"
+                type="button"
                 className="w-full transition-all duration-200 hover:scale-[1.02] hover:shadow-md h-14 text-lg font-semibold rounded-3xl"
+                onClick={signupHandler}
               >
-                Login
+                Sign up
               </Button>
             </div>
           </form>
