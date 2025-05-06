@@ -8,30 +8,34 @@ export const Hero = () => {
       <main className="text-5xl md:text-6xl font-bold">
         <h1 className="inline">
           <span className="inline bg-gradient-to-r from-[#F596D3]  to-[#D247BF] text-transparent bg-clip-text">
-            Shadcn
+            Shade,
           </span>{" "}
-          landing page
+          Zero Trust
         </h1>{" "}
-        for{" "}
+        for<br />
         <h2 className="inline">
           <span className="inline bg-gradient-to-r from-[#61DAFB] via-[#1fc0f1] to-[#03a3d7] text-transparent bg-clip-text">
-            React
+            All
           </span>{" "}
           developers
         </h2>
       </main>
 
       <p className="text-xl text-muted-foreground md:w-10/12 mx-auto lg:mx-0">
-        Build your React landing page effortlessly with the required sections
-        to your project.
+        Deploy your containers with secure zero trust access to your cloud resources.
       </p>
 
       <div className="flex flex-col md:flex-row gap-4 md:gap-6">
-        <Button className="w-full md:w-auto">Get Started</Button>
+        <a
+          rel="noreferrer noopener"
+          href="/signup"
+        >
+          <Button className="w-full md:w-auto">Get Started</Button>
+        </a>
 
         <a
           rel="noreferrer noopener"
-          href="https://github.com/leoMirandaa/shadcn-landing-page.git"
+          href="https://github.com/Shade-Platform/Web-Client"
           target="_blank"
           className={buttonVariants({ variant: "outline" })}
         >
