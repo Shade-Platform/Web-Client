@@ -1,6 +1,7 @@
 // app/_components/Hero.tsx
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Target, Wand2 } from "lucide-react";
+import { FaGithub } from "react-icons/fa";
 
 export const Hero = () => {
   return (
@@ -35,12 +36,12 @@ export const Hero = () => {
 
         <a
           rel="noreferrer noopener"
-          href="https://github.com/Shade-Platform/Web-Client"
+          href="https://github.com/Shade-Platform/"
           target="_blank"
           className={buttonVariants({ variant: "outline" })}
         >
           Github Repository
-          <Target className="ml-2 w-5 h-5" />
+          <FaGithub className="ml-2 w-5 h-5" />
         </a>
 
         {/* Link to AccountWizard page */}

@@ -19,11 +19,7 @@ export const About = () => {
                                 Company
                             </h2>
                             <p className="text-xl text-muted-foreground mt-4">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                                nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
-                                amet, consectetur adipiscing elit.
+                            Shade is a secure cloud service provider focused on privacy, offering a simple, affordable, and reliable platform for developers and small businesses. Built on a zero-trust model, it ensures verified interactions, strong user isolation, and flexible pricing. With an intuitive interface and a live demo showcasing its scalability and security, Shade aims to redefine privacy-first cloud services in emerging markets.
                             </p>
                         </div>
 

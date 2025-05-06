@@ -17,7 +17,7 @@ const Page: React.FC = () => {
       <FAQ />
       <Pricing /> {/* Pricing component here */}
       <Contact />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
