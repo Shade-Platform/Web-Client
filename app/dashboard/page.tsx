@@ -3,10 +3,12 @@
 import DashboardCard from "./_components/card";
 import { Accordion, AccordionItem, AccordionContent, AccordionTrigger } from "@/components/ui/accordion";
 import Chart from "./_components/chart";
+// import { AppSidebar } from "./app-sidebar";
 
 const Dashboard : React.FC = () => {
   return (
     <div className="flex items-start justify-items-center min-h-screen p-8 sm:p-20">
+      {/* <AppSidebar /> */}
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start mx-auto">
         <h1 className="text-3xl font-bold">Dashboard</h1>
         <Accordion  defaultValue="Today" type="single" collapsible className="w-full min-w-4xl">
@@ -22,7 +24,12 @@ const Dashboard : React.FC = () => {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-        <Chart />
+        <div className="w-full max-w-6xl mx-auto">
+          <Chart title="CPU Usage"/>
+        </div>
+        <div className="w-full max-w-6xl mx-auto">
+          <Chart title="Memory Usage"/>
+        </div>
       </main>
     </div>
   );

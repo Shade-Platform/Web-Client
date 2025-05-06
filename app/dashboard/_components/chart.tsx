@@ -1,6 +1,7 @@
 "use client"
 
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
+import { TrendingUp } from "lucide-react"
+import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
 
 import {
   Card,
@@ -13,30 +14,24 @@ import {
 import {
   ChartConfig,
   ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-
+import React from "react"
 
 const chartData = [
-  { month: "January", thisYear: 0, lastYear: 100 },
-  { month: "February", thisYear: 20, lastYear: 80 },
-  { month: "March", thisYear: 40, lastYear: 60 },
-  { month: "April", thisYear: 60, lastYear: 40 },
-  { month: "May", thisYear: 80, lastYear: 20 },
-  { month: "June", thisYear: 100, lastYear: 0 },
+  { month: "January", thisYear: 0 },
+  { month: "February", thisYear: 20 },
+  { month: "March", thisYear: 40 },
+  { month: "April", thisYear: 60 },
+  { month: "May", thisYear: 80 },
+  { month: "June", thisYear: 100 },
 ]
 
 const chartConfig = {
   thisYear: {
     label: "This Year",
-    color: "red",
-  },
-  mobile: {
-    label: "Last Year",
-    color: "blue",
+    color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig
 
@@ -46,11 +41,11 @@ const getColorForValue = (value: number): string => {
   return `rgb(${red}, ${green}, 0)`;
 };
 
-const Chart: React.FC = () => {
+const Chart: React.FC<{ title: string }> = ({ title }) => {
   return (
-    <Card>
+    <Card className="w-full max-w-4xl h-auto">
       <CardHeader>
-        <CardTitle>CPU Usage</CardTitle>
+        <CardTitle>{title}</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
       <CardContent>
@@ -73,25 +68,8 @@ const Chart: React.FC = () => {
                   />
                 ))}
               </linearGradient>
-              <linearGradient id="mobileGradient" x1="0" y1="0" x2="0" y2="1">
-                {chartData.map((data, index) => (
-                  <stop
-                    key={index}
-                    offset={`${(index / (chartData.length - 1)) * 100}%`}
-                    stopColor={getColorForValue(data.lastYear)}
-                  />
-                ))}
-              </linearGradient>
             </defs>
             <CartesianGrid vertical={false} />
-            <YAxis 
-              domain={[0, 100]}
-              tickLine={false}
-              axisLine={true}
-              tickMargin={8}
-              tickFormatter={(value) => `${value}%`}
-              tickCount={5}
-            />
             <XAxis
               dataKey="month"
               tickLine={false}
@@ -99,27 +77,22 @@ const Chart: React.FC = () => {
               tickMargin={8}
               tickFormatter={(value) => value.slice(0, 3)}
             />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-            <ChartLegend content={<ChartLegendContent />} />
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent hideLabel />}
+            />
             <Line
               dataKey="thisYear"
-              type="monotone"
+              type="natural"
               stroke="url(#desktopGradient)"
               strokeWidth={2}
               dot={false}
             />
-            {/* <Line
-              dataKey="mobile"
-              type="monotone"
-              stroke="url(#mobileGradient)"
-              strokeWidth={2}
-              dot={false}
-            /> */}
           </LineChart>
         </ChartContainer>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
 export default Chart;

@@ -38,6 +38,10 @@ const routeList: RouteProps[] = [
     label: "Signup",
   },
   {
+    href: "/dashboard",
+    label: "Dashboard (temporary)",
+  },
+  {
     href: "#pricing",
     label: "Pricing",
   },
