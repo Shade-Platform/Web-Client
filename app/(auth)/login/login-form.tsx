@@ -18,6 +18,40 @@ export function LoginForm({
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+  const loginHandler = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8080/auth/login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // If login is successful, save the token (or handle as needed)
+        // setToken(data.token);
+        localStorage.setItem("token", data.token)
+        console.log('Login successful:', data.token);
+      } else {
+        // Handle the error response
+        // setError('Invalid credentials');
+        console.log('Login failed:', data);
+      }
+    } catch (err) {
+      // Handle any errors during the fetch request
+      // setError('Something went wrong');
+      console.error('Error during login:', err);
+    }
+  };
 
   const togglePasswordVisibility = () => setIsPasswordVisible((prev) => !prev)
 
@@ -37,6 +71,8 @@ export function LoginForm({
                 <Input
                   id="email"
                   type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="shade@example.com"
                   required
                   className="!border-2 !border-solid !border-gray-400 px-5 py-4 h-14 text-lg"
@@ -69,12 +105,15 @@ export function LoginForm({
                   id="password"
                   type={isPasswordVisible ? "text" : "password"}
                   required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="!border-2 !border-solid !border-gray-400 px-5 py-4 h-14 text-lg"
                 />
               </div>
               <Button
-                type="submit"
+                type="button"
                 className="w-full transition-all duration-200 hover:scale-[1.02] hover:shadow-md h-14 text-lg font-semibold rounded-3xl"
+                onClick={() => loginHandler()}
               >
                 Login
               </Button>
