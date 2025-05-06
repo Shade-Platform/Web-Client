@@ -33,6 +33,13 @@ export default function LoginPage() {
           >
             Can't login?
           </a>
+          {"  |  "}
+          <a
+            href="/"
+            className="text-md font-medium text-foreground hover:text-primary transition-colors hover:underline"
+          >
+            Back to Home
+          </a>
         </div>
       </div>
     </div>
