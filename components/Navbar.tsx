@@ -42,13 +42,17 @@ const routeList: RouteProps[] = [
     label: "Dashboard (temporary)",
   },
   {
-    href: "#pricing",
-    label: "Pricing",
+    href: "/upload",
+    label: "Upload",
   },
-  {
-    href: "#faq",
-    label: "FAQ",
-  },
+  // {
+  //   href: "#pricing",
+  //   label: "Pricing",
+  // },
+  // {
+  //   href: "#faq",
+  //   label: "FAQ",
+  // },
 ];
 
 export const Navbar = () => {
