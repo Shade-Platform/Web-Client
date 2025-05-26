@@ -6,10 +6,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useState } from 'react'
 
-function page() {
+function Page() {
+    const [owner, setOwner] = useState("");
     const [name, setName] = useState("");
-    const [tag, setTag] = useState("");
-    const [port, setPort] = useState("");
+    const [imageTag, setImageTag] = useState("");
+    const [mappedPort, setMappedPort] = useState("");
 
     const clickHandler = () => {
         fetch("http://localhost:8080/container/create", {
@@ -18,18 +19,18 @@ function page() {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                owner: "test",
+                owner: owner,
                 name: name,
-                imageTag: tag,
-                replicas: 1,
-                port,
+                imageTag: imageTag,
+                replicas: 1,             // fixed value
+                mappedPort: Number(mappedPort), // convert to number
             }),
         })
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
                 }
-                return response.json(); // or .text() based on expected response
+                return response.json();
             })
             .then((data) => {
                 console.log("Success:", data);
@@ -42,20 +43,22 @@ function page() {
     return (
         <>
             <Navbar />
-            <div className="mt-12 flex flex-col mx-auto  px-8 w-lg">
-
+            <div className="mt-12 flex flex-col mx-auto px-8 w-lg">
                 <h1 className="w-full text-center mb-10 scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-                    Continer Creation
+                    Container Creation
                 </h1>
+
+                <Label className='mb-2'>Owner</Label>
+                <Input className="mb-6" value={owner} onChange={(e) => setOwner(e.target.value)} type="text" placeholder="Owner" />
 
                 <Label className='mb-2'>Container Name</Label>
                 <Input className="mb-6" value={name} onChange={(e) => setName(e.target.value)} type="text" placeholder="Container Name" />
 
-                <Label className='mb-2'>Tag</Label>
-                <Input className='mb-6' value={tag} onChange={(e) => setTag(e.target.value)} type="text" placeholder="Tag" />
+                <Label className='mb-2'>Image Tag</Label>
+                <Input className='mb-6' value={imageTag} onChange={(e) => setImageTag(e.target.value)} type="text" placeholder="Image Tag" />
 
-                <Label className='mb-2'>Port</Label>
-                <Input className='mb-6' value={port} onChange={(e) => setPort(e.target.value)} type="text" placeholder="Port" />
+                <Label className='mb-2'>Mapped Port</Label>
+                <Input className='mb-6' value={mappedPort} onChange={(e) => setMappedPort(e.target.value)} type="number" placeholder="Port" />
 
                 <Button onClick={clickHandler}>
                     Submit
@@ -65,4 +68,4 @@ function page() {
     )
 }
 
-export default page
+export default Page
