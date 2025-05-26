@@ -11,8 +11,13 @@ function Page() {
     const [name, setName] = useState("");
     const [imageTag, setImageTag] = useState("");
     const [mappedPort, setMappedPort] = useState("");
+    const [createdPort, setCreatedPort] = useState(null); // To store port from response
+    const [error, setError] = useState(null);
 
     const clickHandler = () => {
+        setError(null);
+        setCreatedPort(null);
+
         fetch("http://localhost:8080/container/create", {
             method: "POST",
             headers: {
@@ -22,8 +27,8 @@ function Page() {
                 owner: owner,
                 name: name,
                 imageTag: imageTag,
-                replicas: 1,             // fixed value
-                mappedPort: Number(mappedPort), // convert to number
+                replicas: 1,
+                mappedPort: Number(mappedPort),
             }),
         })
             .then((response) => {
@@ -34,9 +39,11 @@ function Page() {
             })
             .then((data) => {
                 console.log("Success:", data);
+                setCreatedPort(data.mappedPort);  // Store mappedPort from response
             })
             .catch((error) => {
                 console.error("Error:", error);
+                setError(error.message);
             });
     };
 
@@ -64,6 +71,18 @@ function Page() {
                     Submit
                 </Button>
             </div>
+
+            {createdPort && (
+                <div className="mt-6 text-center text-green-700">
+                    Container is created successfully, please use port <strong>{createdPort}</strong> to visit it.
+                </div>
+            )}
+
+            {error && (
+                <div className="mt-6 text-center text-red-600">
+                    Error: {error}
+                </div>
+            )}
         </>
     )
 }
