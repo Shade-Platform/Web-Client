@@ -21,32 +21,34 @@ const features: FeatureProps[] = [
     {
         title: "Responsive Design",
         description:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.",
+            "Our dashboard is fully responsive, ensuring a seamless experience across all devices.",
         // image: image4,
     },
     {
         title: "Intuitive user interface",
         description:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.",
+            "Just fill a form to upload your own container images and immediately start using them.",
         // image: image3,
     },
     {
-        title: "AI-Powered insights",
+        title: "Private and secure",
         description:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.",
+            "Your data is private and secure. We do not share your data with third parties.",
         // image: image,
     },
 ];
 
 const featureList: string[] = [
     "Dark/Light theme",
+    "Open source",
+    "Zero configuration",
+    "Zero Trust",
     "Reviews",
     "Features",
     "Pricing",
     "Contact form",
     "Our team",
     "Responsive design",
-    "Newsletter",
     "Minimalist",
 ];
 
