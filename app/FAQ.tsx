@@ -80,7 +80,7 @@ export default function FAQ  ()  {
                 Still have questions?{" "}
                 <a
                     rel="noreferrer noopener"
-                    href="#"
+                    href="#contact-us-section"
                     className="text-primary transition-all border-primary hover:border-b-2"
                 >
                     Contact us
