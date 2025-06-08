@@ -1,11 +1,11 @@
 import { Navbar } from "@/components/Navbar";
-import { Hero } from "./Hero";
-import { About } from "./About";
-import { Footer } from "./Footer";
-import { Features } from "./Features";
-import FAQ from "./FAQ";
-import { Pricing } from "./Pricing"; // Ensure this import is correct
-import Contact from "./Contact";
+import { Hero } from "./_components/Hero";
+import { About } from "./_components/About";
+import { Footer } from "./_components/Footer";
+import { Features } from "./_components/Features";
+import FAQ from "./_components/FAQ";
+import { Pricing } from "./_components/Pricing"; // Ensure this import is correct
+import Contact from "./_components/Contact";
 
 const Page: React.FC = () => {
   return (

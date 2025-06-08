@@ -9,16 +9,16 @@ interface DashboardCardProps {
   pastValue?: string | number;
 }
 
-const DashboardCard : React.FC<DashboardCardProps> = ({title, value, pastValue}) => {
+const DashboardCard: React.FC<DashboardCardProps> = ({ title, value, pastValue }) => {
 
   // Format percentage change
   const percentageChange = pastValue ? (((Number(value) - Number(pastValue)) / Number(pastValue)) * 100) : 0;
   const percentageChangeFormatted = percentageChange.toFixed(2);
   const percentageChangeColor = percentageChange >= 0 ? "text-green-500" : "text-red-500";
   const percentageChangeSign = percentageChange > 0 ? "+" : "";
-  const percentageChangeSymbol = percentageChange >= 0 
-    ? <TrendingUp style={{display: "inline"}}/> 
-    : <TrendingDown style={{display: "inline"}}/>;
+  const percentageChangeSymbol = percentageChange >= 0
+    ? <TrendingUp style={{ display: "inline" }} />
+    : <TrendingDown style={{ display: "inline" }} />;
 
   return (
     <Card className="w-full max-w-sm">

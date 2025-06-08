@@ -26,3 +26,20 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 This project uses [Shadcn/ui](https://ui.shadcn.com/docs/) as a component platform.
 
 This project uses NextThemes for managing dark and light mode.
+```
+/app -> main app entry point
+  /about
+    page.tsx
+    /_components -> components uses in the "about" route
+      About.tsx
+      Statistics.tsx
+  /dashboard
+    page.tsx
+    /_components 
+      Chart.tsx
+      Card.tsx
+/components -> components used in multiple locations
+  ui/
+    Button.tsx
+    Card.tsx
+```

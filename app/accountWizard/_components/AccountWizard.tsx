@@ -2,12 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import WizardStepWrapper from './WizardStepWrapper';
-import UsageIntentStep from './wizard/UsageIntentStep';
-import ContainerCountStep from './wizard/ContainerCountStep';
-import TeamSizeStep from './wizard/TeamSizeStep';
-import TechComfortStep from './wizard/TechComfortStep';
-import PrioritiesStep from './wizard/PrioritiesStep';
-import RecommendationStep from '../_components/wizard/RecommendationStep';
+import UsageIntentStep from './UsageIntentStep';
+import ContainerCountStep from './ContainerCountStep';
+import TeamSizeStep from './TeamSizeStep';
+import TechComfortStep from './TechComfortStep';
+import PrioritiesStep from './PrioritiesStep';
+import RecommendationStep from './RecommendationStep';
 
 interface Recommendation {
   name: string;
