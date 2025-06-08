@@ -47,13 +47,13 @@ export const Hero = () => {
 
         {/* Link to AccountWizard page */}
         <a href="/accountWizard">
-        <Button
-         variant="secondary"
-        className="w-full md:w-auto bg-gray-400 hover:bg-gray-900 text-white transition-colors"
->
-  <Wand2 className="mr-2 w-5 h-5" />
-  I’m New – Show Me How
-</Button>
+          <Button
+            variant="secondary"
+            className="w-full md:w-auto bg-gray-400 hover:bg-gray-900 text-white transition-colors"
+          >
+            <Wand2 className="mr-2 w-5 h-5" />
+            I’m New – Show Me How
+          </Button>
 
         </a>
       </div>

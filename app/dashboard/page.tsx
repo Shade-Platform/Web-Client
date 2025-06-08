@@ -22,9 +22,9 @@ const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-    const router = useRouter()
+  const router = useRouter()
 
-  const containerClickHandler = (name:string) => {
+  const containerClickHandler = (name: string) => {
     router.push(`/dashboard/container?name=${name}`)
   };
 
@@ -55,8 +55,8 @@ const Dashboard: React.FC = () => {
         <h1 className="text-3xl font-bold">Dashboard</h1>
         <h2 className="text-2xl font-bold">Containers</h2>
 
-          {loading && <p>Loading containers...</p>}
-          {error && <p className="text-red-600">Error: {error}</p>}
+        {loading && <p>Loading containers...</p>}
+        {error && <p className="text-red-600">Error: {error}</p>}
         {!loading && !error && data && data.length === 0 && (
           <p>No containers found in this namespace.</p>
         )}
