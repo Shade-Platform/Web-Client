@@ -6,6 +6,7 @@ import Chart from "./_components/chart";
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
+import{ verifyToken } from '@/lib/auth/verifyToken'
 
 interface Container {
   owner: string;
@@ -30,6 +31,7 @@ const Dashboard: React.FC = () => {
 
 
   useEffect(() => {
+
     async function fetchContainers() {
       try {
         const res = await fetch("http://localhost:8080/container/namespace/test");
@@ -45,7 +47,7 @@ const Dashboard: React.FC = () => {
         console.log(data)
       }
     }
-    fetchContainers();
+    verifyToken().then(fetchContainers);
   }, []);
 
   return (
