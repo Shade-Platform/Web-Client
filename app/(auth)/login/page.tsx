@@ -1,5 +1,5 @@
-import { LoginForm } from "./login-form"
-import { SocialLoginOptions } from "./SocialLoginOptions"
+import { LoginForm } from "./_components/login-form"
+import { SocialLoginOptions } from "./_components/SocialLoginOptions"
 
 export default function LoginPage() {
   return (
@@ -39,6 +39,12 @@ export default function LoginPage() {
             className="text-md font-medium text-foreground hover:text-primary transition-colors hover:underline"
           >
             Back to Home
+          </a>{"  |  "}
+          <a
+            href="/signup"
+            className="text-md font-medium text-foreground hover:text-primary transition-colors hover:underline"
+          >
+            Dont Have an Account?
           </a>
         </div>
       </div>
