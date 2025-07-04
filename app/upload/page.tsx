@@ -4,7 +4,9 @@ import { Navbar } from '@/components/Navbar'
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useState } from 'react'
+import { Badge } from '@/components/ui/badge';
+import { useState, useRef } from 'react';
+import { motion } from "framer-motion";
 
 function Page() {
   const [owner, setOwner] = useState("");
@@ -13,6 +15,7 @@ function Page() {
   const [mappedPort, setMappedPort] = useState("");
   const [createdPort, setCreatedPort] = useState(null); // To store port from response
   const [error, setError] = useState(null);
+  const successRef = useRef<HTMLDivElement | null>(null);
 
   const clickHandler = () => {
     setError(null);
@@ -40,6 +43,13 @@ function Page() {
       .then((data) => {
         console.log("Success:", data);
         setCreatedPort(data.mappedPort);  // Store mappedPort from response
+        successRef.current?.scrollIntoView({ behavior: 'smooth' });
+
+        // Clear form
+        setOwner("");
+        setName("");
+        setImageTag("");
+        setMappedPort("");
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -73,10 +83,65 @@ function Page() {
       </div>
 
       {createdPort && (
-        <div className="mt-6 text-center text-green-700">
-          Container is created successfully, please use port <strong>{createdPort}</strong> to visit it.
+        <div ref={successRef} className="flex flex-col items-center justify-center mt-10 pb-20">
+          <motion.div
+            className="relative flex items-center justify-center w-28 h-28"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{
+              type: "spring",
+              stiffness: 200,
+              damping: 10,
+              bounce: 0.4,
+              duration: 1,
+              ease: "easeIn",
+            }}
+          >
+            {/* Faded edge circle */}
+            <div className="absolute w-full h-full border-4 border-green-400 rounded-full opacity-100 blur-sm" />
+
+            {/* Tick Icon */}
+            <motion.svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-12 h-12 text-green-700 z-10"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{
+                type: "spring",
+                stiffness: 180,
+                damping: 12,
+                duration: 1,
+                ease: "easeIn",
+              }}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </motion.svg>
+          </motion.div>
+
+          <h2 className="text-2xl font-bold mt-4">
+            Container Created Successfully!
+          </h2>
+
+          <div className="mt-4 space-y-2 text-center">
+            <p>
+              <strong>Created Port:</strong>{" "}
+              <Badge variant="secondary" className="text-sm">{createdPort}</Badge>
+            </p>
+          </div>
+
+          <Button
+            className="mt-6 bg-green-700 hover:bg-green-800 text-white"
+            onClick={() => window.open(`http://localhost:${createdPort}`, "_blank")}
+          >
+            View Container
+          </Button>
         </div>
       )}
+
 
       {error && (
         <div className="mt-6 text-center text-red-600">
@@ -87,4 +152,4 @@ function Page() {
   )
 }
 
-export default Page
+export default Page;
