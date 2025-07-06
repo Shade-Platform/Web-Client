@@ -8,16 +8,20 @@ export const config = {
 }
 
 export async function middleware(req: NextRequest) {
-  const trustCheck = await fetch('http://localhost:8080/trust/score', {
-    headers: {
-      'User-Agent': req.headers.get('user-agent') || '',
-      'X-Forwarded-For': '172.18.0.1',
-    },
-  });
+  try {
+    const trustCheck = await fetch('http://localhost:8080/trust/score', {
+      headers: {
+        'User-Agent': req.headers.get('user-agent') || '',
+        'X-Forwarded-For': '172.18.0.1',
+      },
+    });
 
-  if (trustCheck.status === 403) {
+    if (trustCheck.status === 403) {
+      return NextResponse.redirect(new URL('/accessDenied', req.url));
+    }
+
+    return NextResponse.next();
+  } catch (e) {
     return NextResponse.redirect(new URL('/accessDenied', req.url));
   }
-
-  return NextResponse.next();
 }

@@ -23,7 +23,9 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
+  SidebarMenuButton,
   SidebarRail,
+  SidebarTrigger,
 } from "@/components/ui/sidebar"
 
 // This is sample data.
@@ -72,23 +74,19 @@ const data = {
       ],
     },
     {
-      title: "Models",
+      title: "Containers",
       url: "#",
       icon: Bot,
       items: [
         {
-          title: "Genesis",
-          url: "#",
+          title: "Create Container",
+          url: "/dashboard/upload",
         },
         {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
+          title: "My Containers",
+          url: "/dashboard",
+        }
+      ]
     },
     {
       title: "Documentation",
@@ -159,7 +157,7 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
+      <SidebarHeader className="flex flex-row items-center justify-between">
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
