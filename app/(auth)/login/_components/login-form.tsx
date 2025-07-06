@@ -11,51 +11,61 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
-import { Eye, EyeOff } from "lucide-react"
-import { useRouter } from 'next/navigation';
+import { Eye, EyeOff, Loader2 } from "lucide-react"
+import { useRouter } from 'next/navigation'
+
+interface LoginFormProps extends React.ComponentPropsWithoutRef<"div"> {
+  setErrorMessage?: (msg: string | null) => void
+}
 
 export function LoginForm({
   className,
+  setErrorMessage,
   ...props
-}: React.ComponentPropsWithoutRef<"div">) {
+}: LoginFormProps) {
   const router = useRouter()
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [localError, setLocalError] = useState<string | null>(null)
+
+  const showError = (msg: string) => {
+    if (setErrorMessage) {
+      setErrorMessage(msg)
+    } else {
+      setLocalError(msg)
+    }
+  }
 
   const loginHandler = async () => {
+    setLoading(true)
+
     try {
       const response = await fetch('http://127.0.0.1:8080/auth/login/', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      })
 
-      const data = await response.json();
+      const data = await response.json()
 
       if (response.ok) {
-        // If login is successful, save the token (or handle as needed)
-        // setToken(data.token);
         localStorage.setItem("token", data.token)
-        console.log('Login successful:', data.token);
         router.push("/dashboard")
       } else {
-        // Handle the error response
-        // setError('Invalid credentials');
-        console.log('Login failed:', data);
+        showError("Invalid email or password.")
+        setTimeout(() => location.reload(), 300) // Slight delay to show error briefly
       }
     } catch (err) {
-      // Handle any errors during the fetch request
-      // setError('Something went wrong');
-      console.error('Error during login:', err);
+      showError("Something went wrong.")
+      setTimeout(() => location.reload(), 300)
+      console.error("Login error:", err)
+    } finally {
+      setLoading(false)
     }
-  };
+  }
 
   const togglePasswordVisibility = () => setIsPasswordVisible((prev) => !prev)
 
@@ -66,7 +76,7 @@ export function LoginForm({
           <CardTitle className="text-2xl font-semibold">Log in</CardTitle>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={(e) => { e.preventDefault(); loginHandler(); }}>
             <div className="grid gap-6 text-lg">
               <div className="grid gap-3">
                 <Label htmlFor="email" className="text-base font-medium">
@@ -82,6 +92,7 @@ export function LoginForm({
                   className="!border-2 !border-solid !border-gray-400 px-5 py-4 h-14 text-lg"
                 />
               </div>
+
               <div className="grid gap-3">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password" className="text-base font-medium">
@@ -114,12 +125,19 @@ export function LoginForm({
                   className="!border-2 !border-solid !border-gray-400 px-5 py-4 h-14 text-lg"
                 />
               </div>
+
+              {(localError && !setErrorMessage) && (
+                <div className="text-red-600 font-medium text-center">
+                  {localError}
+                </div>
+              )}
+
               <Button
-                type="button"
-                className="w-full transition-all duration-200 hover:scale-[1.02] hover:shadow-md h-14 text-lg font-semibold rounded-3xl"
-                onClick={() => loginHandler()}
+                type="submit"
+                className="w-full transition-all duration-200 hover:scale-[1.02] hover:shadow-md h-14 text-lg font-semibold rounded-3xl flex justify-center items-center"
+                disabled={loading}
               >
-                Login
+                {loading ? <Loader2 className="animate-spin mr-2 h-5 w-5" /> : "Login"}
               </Button>
             </div>
           </form>
