@@ -2,21 +2,22 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export const config = {
-  matcher: ['/((?!_next|static|favicon.ico|api).*)'], // apply to all routes except Next internals and API routes
+  matcher: [
+    '/((?!_next|static|favicon.ico|api|accessDenied).*)', // exclude access-denied too
+  ],
 }
 
 export async function middleware(req: NextRequest) {
-  const res = await fetch('http://localhost:8080/trust/score', {
+  const trustCheck = await fetch('http://localhost:8080/trust/score', {
     headers: {
       'User-Agent': req.headers.get('user-agent') || '',
-      'X-Forwarded-For': req.headers.get('x-forwarded-for') || '',
+      'X-Forwarded-For': '172.18.0.1',
     },
-  })
+  });
 
-  if (res.status === 403) {
-    // Block access — redirect to error page
-    return NextResponse.redirect(new URL('/access-denied', req.url))
+  if (trustCheck.status === 403) {
+    return NextResponse.redirect(new URL('/accessDenied', req.url));
   }
 
-  return NextResponse.next()
+  return NextResponse.next();
 }
