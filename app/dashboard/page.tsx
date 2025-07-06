@@ -40,7 +40,7 @@ const Dashboard: React.FC = () => {
         const containers: Container[] = await res.json()
         setData(containers)
       } catch (err: any) {
-        setError(err.message || "Failed to fetch data")
+        setError("Failed to fetch container data")
       } finally {
         setLoading(false)
       }

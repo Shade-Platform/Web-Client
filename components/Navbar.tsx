@@ -14,7 +14,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { Github, Target, Menu } from "lucide-react"
-import { buttonVariants } from "./ui/button"
+import { Button, buttonVariants } from "./ui/button"
 import { ModeToggle } from "./mode-toggle"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -123,7 +123,7 @@ export const Navbar = () => {
           </nav>
 
           <div className="hidden md:flex gap-2">
-            <a
+            <Link
               href="https://github.com/Shade-Platform/Web-Client"
               target="_blank"
               rel="noopener noreferrer"
@@ -131,14 +131,11 @@ export const Navbar = () => {
             >
               <Github className="mr-2 w-5 h-5" />
               Github
-            </a>
+            </Link>
             {isLoggedIn ? (
-              <button
-                onClick={handleLogout}
-                className={buttonVariants({ variant: "destructive" })}
-              >
+              <Button onClick={handleLogout} variant={"destructive"}>
                 Logout
-              </button>
+              </Button>
             ) : (
               <a
                 rel="noreferrer noopener"
