@@ -1,9 +1,10 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { verifyToken } from "@/lib/auth/verifyToken"
 
+// Defines a protected route component that checks if the user is authenticated
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const [allowed, setAllowed] = useState<boolean | null>(null)
   const router = useRouter()
@@ -22,7 +23,8 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
   }, [])
 
   if (allowed === null) {
-    return <p>Verifying token...</p> // or a spinner
+    return <Suspense fallback={<p>Verifying token...</p>}></Suspense>;
+    // return <p>Verifying token...</p>;
   }
 
   if (allowed === false) {

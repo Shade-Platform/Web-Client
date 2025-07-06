@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 import { Card } from "@/components/ui/card"
 import { useRouter } from "next/navigation"
 import { Navbar } from "@/components/Navbar"
+import { SidebarTrigger } from "@/components/ui/sidebar"
 
 interface Container {
   owner: string
@@ -51,6 +52,8 @@ const Dashboard: React.FC = () => {
   return (
     <ProtectedRoute>
       <Navbar />
+      <SidebarTrigger className="sticky top-15" />
+
       <div className="flex items-start justify-items-center min-h-screen p-8 sm:p-20">
         <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start mx-auto">
           <h1 className="text-3xl font-bold">Dashboard</h1>

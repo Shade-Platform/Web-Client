@@ -8,6 +8,7 @@ export const config = {
 }
 
 export async function middleware(req: NextRequest) {
+  
   try {
     const trustCheck = await fetch('http://localhost:8080/trust/score', {
       headers: {
@@ -24,4 +25,6 @@ export async function middleware(req: NextRequest) {
   } catch (e) {
     return NextResponse.redirect(new URL('/accessDenied', req.url));
   }
+
+  // return NextResponse.next();
 }

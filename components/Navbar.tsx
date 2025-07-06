@@ -40,18 +40,18 @@ export const Navbar = () => {
     router.push("/login")
   }
 
-  const loggedOutRoutes: RouteProps[] = [
-    { href: "/", label: "Home" },
-    { href: "/login", label: "Login" },
-    { href: "/signup", label: "Signup" },
-  ]
+  // const loggedOutRoutes: RouteProps[] = [
+  //   { href: "/", label: "Home" },
+  //   { href: "/login", label: "Login" },
+  //   { href: "/signup", label: "Signup" },
+  // ]
 
-  const loggedInRoutes: RouteProps[] = [
-    { href: "/dashboard", label: "Dashboard" },
-    { href: "/upload", label: "Upload" },
-  ]
+  // const routeList: RouteProps[] = [
+  //   { href: "/dashboard", label: "Dashboard" },
+  //   { href: "/dashboard/upload", label: "Upload" },
+  // ]
 
-  const routeList = isLoggedIn ? loggedInRoutes : loggedOutRoutes
+  // const routeList = isLoggedIn ? loggedInRoutes : loggedOutRoutes
 
   return (
     <header className="sticky border-b-[1px] top-0 z-40 w-full bg-white dark:border-b-slate-700 dark:bg-background">
@@ -78,27 +78,21 @@ export const Navbar = () => {
                   <SheetTitle className="font-bold text-xl">Shade</SheetTitle>
                 </SheetHeader>
                 <nav className="flex flex-col gap-2 mt-4">
-                  {routeList.map(({ href, label }) => (
-                    <Link
-                      key={label}
-                      href={href}
-                      onClick={() => setIsOpen(false)}
-                      className={buttonVariants({ variant: "ghost" })}
-                    >
-                      {label}
-                    </Link>
-                  ))}
-
-                  {isLoggedIn && (
+                  {isLoggedIn ? (
                     <button
-                      onClick={() => {
-                        setIsOpen(false)
-                        handleLogout()
-                      }}
+                      onClick={handleLogout}
                       className={buttonVariants({ variant: "destructive" })}
                     >
                       Logout
                     </button>
+                  ) : (
+                    <a
+                      rel="noreferrer noopener"
+                      href="/login"
+                      className={`border ${buttonVariants({ variant: "secondary" })}`}
+                    >
+                      Login
+                    </a>
                   )}
 
                   <a
@@ -117,23 +111,14 @@ export const Navbar = () => {
 
           {/* Desktop menu */}
           <nav className="hidden md:flex gap-2 items-center">
-            {routeList.map(({ href, label }) => (
+            {isLoggedIn && (
               <Link
-                key={label}
-                href={href}
+                key={"Dashboard"}
+                href={"/dashboard"}
                 className={`text-[17px] ${buttonVariants({ variant: "ghost" })}`}
               >
-                {label}
+                {"Dashboard"}
               </Link>
-            ))}
-
-            {isLoggedIn && (
-              <button
-                onClick={handleLogout}
-                className={buttonVariants({ variant: "destructive" })}
-              >
-                Logout
-              </button>
             )}
           </nav>
 
@@ -147,13 +132,22 @@ export const Navbar = () => {
               <Github className="mr-2 w-5 h-5" />
               Github
             </a>
-            {/* <a
-              rel="noreferrer noopener"
-              href="/login"
-              className={`border ${buttonVariants({ variant: "secondary" })}`}
-            >
-              Login
-            </a> */}
+            {isLoggedIn ? (
+              <button
+                onClick={handleLogout}
+                className={buttonVariants({ variant: "destructive" })}
+              >
+                Logout
+              </button>
+            ) : (
+              <a
+                rel="noreferrer noopener"
+                href="/login"
+                className={`border ${buttonVariants({ variant: "secondary" })}`}
+              >
+                Login
+              </a>
+            )}
 
             <ModeToggle />
           </div>
