@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { useState, useRef } from 'react';
 import { motion } from "framer-motion";
+import ProtectedRoute from '@/components/ProtectedRoute';
 
 function Page() {
   const [owner, setOwner] = useState("");
@@ -58,7 +59,7 @@ function Page() {
   };
 
   return (
-    <>
+    <ProtectedRoute>
       <Navbar />
       <div className="mt-12 flex flex-col mx-auto px-8 w-lg">
         <h1 className="w-full text-center mb-10 scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
@@ -148,7 +149,7 @@ function Page() {
           Error: {error}
         </div>
       )}
-    </>
+    </ProtectedRoute>
   )
 }
 
