@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import { Eye, EyeOff, CheckCircle, Circle } from "lucide-react"
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation'
 
 export function SignupForm({
   className,
@@ -21,20 +21,44 @@ export function SignupForm({
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
   const router = useRouter()
 
-  const[email, setEmail] = useState("")
+  const [email, setEmail] = useState("")
   const [name, setName] = useState("")
   const [password, setPassword] = useState("")
   const [repeatPassword, setRepeatPassword] = useState("")
 
-  const signupHandler = async () => {
-    if (email == "" || name == "" || password == "" || repeatPassword == "") {
-      console.error("fields are empty")
+  const [errors, setErrors] = useState<{ [key: string]: string }>({})
+
+  const validateForm = () => {
+    const newErrors: { [key: string]: string } = {}
+
+    if (!email) newErrors.email = "Email is required"
+    else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email))
+      newErrors.email = "Invalid email format"
+
+    if (!name) newErrors.name = "Name is required"
+
+    if (!password) newErrors.password = "Password is required"
+    else {
+      if (password.length < 8)
+        newErrors.password = "Password must be at least 8 characters"
+      else if (!/[a-z]/.test(password) || !/[A-Z]/.test(password))
+        newErrors.password = "Password must contain both upper and lower case letters"
+      else if (!/\d/.test(password))
+        newErrors.password = "Password must include a number"
+      else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password))
+        newErrors.password = "Password must include a symbol"
     }
 
-    if (password !== repeatPassword) {
-      console.error("passwords doens't match")
-      return
-    }
+    if (repeatPassword !== password)
+      newErrors.repeatPassword = "Passwords do not match"
+
+    setErrors(newErrors)
+
+    return Object.keys(newErrors).length === 0
+  }
+
+  const signupHandler = async () => {
+    if (!validateForm()) return
 
     try {
       const response = await fetch("http://127.0.0.1:8080/auth/signup/", {
@@ -42,24 +66,22 @@ export function SignupForm({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          email,
-          password,
-          name,
-        }),
+        body: JSON.stringify({ email, password, name }),
       });
 
       if (!response.ok) {
-        const error = await response.text();
-        console.error("Signup failed:", error);
-        return;
+        const error = await response.text()
+        console.error("Signup failed:", error)
+        setErrors({ api: error })
+        return
       }
 
-      const result = await response.json();
-      console.log("Signup successful:", result);
+      const result = await response.json()
+      console.log("Signup successful:", result)
       router.push("/login")
     } catch (error) {
-      console.error("Network error:", error);
+      console.error("Network error:", error)
+      setErrors({ api: "Network error, please try again later." })
     }
   }
 
@@ -79,56 +101,45 @@ export function SignupForm({
           <CardTitle className="text-2xl font-semibold">Sign Up</CardTitle>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={(e) => { e.preventDefault(); signupHandler() }}>
             <div className="grid gap-6 text-lg">
-              <div className="grid gap-3">
-                <Label htmlFor="email" className="text-base font-medium">
-                  Email address
-                </Label>
+              {/* Email */}
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email address</Label>
                 <Input
                   id="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="shade@example.com"
+                  className="px-5 py-4 h-14 text-lg"
                   required
-                  className="!border-2 !border-solid !border-gray-400 px-5 py-4 h-14 text-lg"
                 />
+                {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
               </div>
-              <div className="grid gap-3">
-                <Label htmlFor="name" className="text-base font-medium">
-                  Name
-                </Label>
+
+              {/* Name */}
+              <div className="grid gap-2">
+                <Label htmlFor="name">Name</Label>
                 <Input
                   id="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  type="text"
+                  className="px-5 py-4 h-14 text-lg"
                   required
-                  className="!border-2 !border-solid !border-gray-400 px-5 py-4 h-14 text-lg"
                 />
+                {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
               </div>
-              <div className="grid gap-3">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="password" className="text-base font-medium">
-                    Password
-                  </Label>
+
+              {/* Password */}
+              <div className="grid gap-2">
+                <div className="flex justify-between">
+                  <Label htmlFor="password">Password</Label>
                   <button
                     type="button"
                     onClick={togglePasswordVisibility}
-                    className="flex items-center gap-2 text-base font-medium text-muted-foreground hover:underline"
+                    className="flex items-center gap-2 text-sm text-muted-foreground hover:underline"
                   >
-                    {isPasswordVisible ? (
-                      <>
-                        <EyeOff className="h-5 w-5" />
-                        Hide
-                      </>
-                    ) : (
-                      <>
-                        <Eye className="h-5 w-5" />
-                        Show
-                      </>
-                    )}
+                    {isPasswordVisible ? <><EyeOff className="h-4 w-4" />Hide</> : <><Eye className="h-4 w-4" />Show</>}
                   </button>
                 </div>
                 <Input
@@ -136,62 +147,51 @@ export function SignupForm({
                   type={isPasswordVisible ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  className="px-5 py-4 h-14 text-lg"
                   required
-                  className="!border-2 !border-solid !border-gray-400 px-5 py-4 h-14 text-lg"
                 />
+                {errors.password && <p className="text-sm text-red-500">{errors.password}</p>}
 
-                {/* Password Rules in 2x2 Grid */}
+                {/* Password Strength Grid */}
                 <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-gray-600">
                   <div className="flex items-center gap-2">
-                    {passwordCriteria.length ? (
-                      <CheckCircle className="text-green-600 w-4 h-4" />
-                    ) : (
-                      <Circle className="text-gray-400 w-4 h-4" />
-                    )}
+                    {passwordCriteria.length ? <CheckCircle className="text-green-600 w-4 h-4" /> : <Circle className="text-gray-400 w-4 h-4" />}
                     Use 8 or more characters
                   </div>
                   <div className="flex items-center gap-2">
-                    {passwordCriteria.upperLower ? (
-                      <CheckCircle className="text-green-600 w-4 h-4" />
-                    ) : (
-                      <Circle className="text-gray-400 w-4 h-4" />
-                    )}
-                    Use upper and lower case letters (e.g. Aa)
+                    {passwordCriteria.upperLower ? <CheckCircle className="text-green-600 w-4 h-4" /> : <Circle className="text-gray-400 w-4 h-4" />}
+                    Upper & lower case (e.g. Aa)
                   </div>
                   <div className="flex items-center gap-2">
-                    {passwordCriteria.number ? (
-                      <CheckCircle className="text-green-600 w-4 h-4" />
-                    ) : (
-                      <Circle className="text-gray-400 w-4 h-4" />
-                    )}
-                    Use a number (e.g. 1234)
+                    {passwordCriteria.number ? <CheckCircle className="text-green-600 w-4 h-4" /> : <Circle className="text-gray-400 w-4 h-4" />}
+                    At least one number
                   </div>
                   <div className="flex items-center gap-2">
-                    {passwordCriteria.symbol ? (
-                      <CheckCircle className="text-green-600 w-4 h-4" />
-                    ) : (
-                      <Circle className="text-gray-400 w-4 h-4" />
-                    )}
-                    Use a symbol (e.g. !@#$)
+                    {passwordCriteria.symbol ? <CheckCircle className="text-green-600 w-4 h-4" /> : <Circle className="text-gray-400 w-4 h-4" />}
+                    At least one symbol
                   </div>
                 </div>
 
-                <Label htmlFor="password-repeat" className="text-base font-medium mt-4">
-                  Repeat Password
-                </Label>
+                {/* Repeat Password */}
+                <Label htmlFor="repeatPassword" className="mt-4">Repeat Password</Label>
                 <Input
-                  id="password-repeat"
+                  id="repeatPassword"
                   type={isPasswordVisible ? "text" : "password"}
                   value={repeatPassword}
                   onChange={(e) => setRepeatPassword(e.target.value)}
+                  className="px-5 py-4 h-14 text-lg"
                   required
-                  className="!border-2 !border-solid !border-gray-400 px-5 py-4 h-14 text-lg"
                 />
+                {errors.repeatPassword && <p className="text-sm text-red-500">{errors.repeatPassword}</p>}
               </div>
+
+              {/* API Error */}
+              {errors.api && <p className="text-sm text-red-600 text-center">{errors.api}</p>}
+
+              {/* Submit */}
               <Button
-                type="button"
+                type="submit"
                 className="w-full transition-all duration-200 hover:scale-[1.02] hover:shadow-md h-14 text-lg font-semibold rounded-3xl"
-                onClick={signupHandler}
               >
                 Sign up
               </Button>

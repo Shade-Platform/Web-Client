@@ -1,10 +1,13 @@
 import { GalleryVerticalEnd } from "lucide-react"
 
 import { SignupForm } from "./_components/signup-form"
+import { Navbar } from "@/components/Navbar"
 
 export default function SignupPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center px-4 py-6 md:px-10 md:py-12 bg-muted">
+    <>
+      <Navbar />
+      <div className="flex min-h-screen items-center justify-center px-4 py-6 md:px-10 md:py-12 bg-muted">
       <div className="max-w-2xl w-full mx-auto">
         <SignupForm />
         <div className="text-center mt-6">
@@ -18,5 +21,6 @@ export default function SignupPage() {
         </div>
       </div>
     </div>
+    </>
   )
 }
