@@ -19,6 +19,7 @@ import { ModeToggle } from "./mode-toggle"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { verifyToken } from "@/lib/auth/verifyToken"
+import { useAuth } from "@/lib/auth/authContext"
 
 interface RouteProps {
   href: string
@@ -26,17 +27,18 @@ interface RouteProps {
 }
 
 export const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const router = useRouter()
+  const { logout, user } = useAuth();
+
+  const isLoggedIn = user !== null && user !== undefined
 
   useEffect(() => {
-    verifyToken().then(setIsLoggedIn)
+    verifyToken()
   }, [])
 
   const handleLogout = () => {
-    localStorage.removeItem("token")
-    setIsLoggedIn(false)
+    logout()
     router.push("/login")
   }
 

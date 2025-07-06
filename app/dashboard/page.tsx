@@ -50,7 +50,7 @@ const Dashboard: React.FC = () => {
   }, [])
 
   return (
-    <ProtectedRoute>
+    <>
       <Navbar />
       <SidebarTrigger className="sticky top-15" />
 
@@ -98,7 +98,7 @@ const Dashboard: React.FC = () => {
           </div>
         </main>
       </div>
-    </ProtectedRoute>
+    </>
   )
 }
 

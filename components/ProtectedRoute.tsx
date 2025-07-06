@@ -3,16 +3,18 @@
 import { Suspense, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { verifyToken } from "@/lib/auth/verifyToken"
+import { useAuth } from "@/lib/auth/authContext";
 
 // Defines a protected route component that checks if the user is authenticated
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const [allowed, setAllowed] = useState<boolean | null>(null)
   const router = useRouter()
+  const { user } = useAuth();
 
   useEffect(() => {
     const check = async () => {
-      const valid = await verifyToken()
-      if (!valid) {
+      console.log(user)
+      if (user === null) {
         router.replace("/login")
         setAllowed(false)
       } else {
