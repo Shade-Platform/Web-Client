@@ -147,13 +147,13 @@ export const Navbar = () => {
               <Github className="mr-2 w-5 h-5" />
               Github
             </a>
-            <a
+            {/* <a
               rel="noreferrer noopener"
               href="/login"
               className={`border ${buttonVariants({ variant: "secondary" })}`}
             >
               Login
-            </a>
+            </a> */}
 
             <ModeToggle />
           </div>
