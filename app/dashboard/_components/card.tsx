@@ -5,14 +5,17 @@ import { TrendingUp, TrendingDown } from "lucide-react"
 
 interface DashboardCardProps {
   title: string;
-  value: string | number;
-  pastValue?: string | number;
+  value: number;
+  pastValue?: number;
 }
 
 const DashboardCard: React.FC<DashboardCardProps> = ({ title, value, pastValue }) => {
 
   // Format percentage change
-  const percentageChange = pastValue ? (((Number(value) - Number(pastValue)) / Number(pastValue)) * 100) : 0;
+  let percentageChange = 100;
+  if (pastValue && pastValue !== 0) {
+    percentageChange = ((value - pastValue) / pastValue) * 100
+  }
   const percentageChangeFormatted = percentageChange.toFixed(2);
   const percentageChangeColor = percentageChange >= 0 ? "text-green-500" : "text-red-500";
   const percentageChangeSign = percentageChange > 0 ? "+" : "";
@@ -30,7 +33,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({ title, value, pastValue }
           <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">
             {value}
           </h1>
-          {pastValue && (
+          {pastValue !== undefined && (
             <span className={` flex gap-2 items-center text-sm ${percentageChangeColor}`}>
               {percentageChangeSymbol} {percentageChangeSign}{percentageChangeFormatted}%
             </span>

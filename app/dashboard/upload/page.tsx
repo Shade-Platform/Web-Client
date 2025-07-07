@@ -9,6 +9,7 @@ import { useState, useRef } from 'react';
 import { motion } from "framer-motion";
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { useAuth } from '@/lib/auth/authContext';
+import { SidebarTrigger } from '@/components/ui/sidebar';
 
 function Page() {
   const [name, setName] = useState("");
@@ -34,7 +35,7 @@ function Page() {
       },
       body: JSON.stringify({
         owner: user.id,
-        name: name,
+        name: name.split(" ").join("-").toLowerCase(), 
         imageTag: imageTag,
         replicas: 1,
         mappedPort: Number(mappedPort),
@@ -64,6 +65,8 @@ function Page() {
 
   return (
     <ProtectedRoute>
+      <Navbar />
+      <SidebarTrigger className="sticky top-0" />
       <div className="mx-auto min-h-screen w-full">
         <div className="mt-12 flex flex-col mx-auto px-8 w-lg">
           <h1 className="w-full text-center mb-10 scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">

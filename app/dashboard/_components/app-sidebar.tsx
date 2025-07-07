@@ -69,17 +69,23 @@ const data = {
     //   ],
     // },
     {
+      title: "Dashboard",
+      url: "/dashboard",
+      icon: SquareTerminal,
+      isActive: true,
+    },
+    {
       title: "Containers",
       url: "#",
       icon: Bot,
       items: [
         {
-          title: "Create Container",
+          title: "Create a New Container",
           url: "/dashboard/upload",
         },
         {
           title: "My Containers",
-          url: "/dashboard",
+          url: "/dashboard/containers",
         }
       ]
     },
