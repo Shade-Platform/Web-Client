@@ -36,7 +36,8 @@ const Dashboard: React.FC = () => {
   const [data, setData] = useState<Container[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [ allUsersCount, setAllUsersCount ] = useState<number>(0);
+  const [allUsersCount, setAllUsersCount] = useState<number>(0);
+  const [deploymentsCount, setDeploymentsCount] = useState<number>(0);
   const { user } = useAuth();
 
   const router = useRouter();
@@ -46,7 +47,7 @@ const Dashboard: React.FC = () => {
   }
 
   useEffect(() => {
-    
+
     async function fetchContainers() {
       if (user === null) {
         setError("User not authenticated")
@@ -78,6 +79,21 @@ const Dashboard: React.FC = () => {
       }
     }
 
+    async function getDeploymentsSince(time: number) {
+      if (user === null) return;
+      try {
+        const res = await fetch(`http://localhost:8080/container/namespace/${user.id}?hours=${time}`)
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
+
+        const json = await res.json()
+        console.log(json)
+        setDeploymentsCount(json.deployments)
+      } catch (err: any) {
+        setError("Failed to fetch deployments data")
+      }
+    }
+
+    getDeploymentsSince(24)
     fetchContainers()
     getAllUsers()
   }, [])
@@ -144,10 +160,10 @@ const Dashboard: React.FC = () => {
               <AccordionTrigger>Today</AccordionTrigger>
               <AccordionContent>
                 <div className="flex gap-4 justify-center sm:justify-start">
-                  <DashboardCard title="Total Running Containers" value={data?.length || 0} pastValue={0} />
-                  <DashboardCard title="Today's Deployments" value={300} pastValue={0} />
-                  <DashboardCard title="Active Users" value={239} pastValue={0} />
-                  <DashboardCard title="All Users" value={allUsersCount} pastValue={0} />
+                  <DashboardCard title="Total Running Containers" value={data?.length || 0} pastValue={1} />
+                  <DashboardCard title="Today's Deployments" value={deploymentsCount} pastValue={1} />
+                  <DashboardCard title="Active Users" value={239} pastValue={255} />
+                  <DashboardCard title="All Users" value={allUsersCount} pastValue={1} />
                 </div>
               </AccordionContent>
             </AccordionItem>
