@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 type User = {
+  id: string;
   name: string;
   email: string;
 };
@@ -38,7 +39,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (token: string) => {
     localStorage.setItem("token", token);
-    setLoading(true);
     try {
       const res = await fetch("http://localhost:8080/auth/me/", {
         headers: { Authorization: `Bearer ${token}` },
@@ -51,6 +51,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (!userRes.ok) throw new Error("User fetch failed");
       const userData = await userRes.json();
       setUser({
+        id: userData.id,
         name: userData.name,
         email: userData.email,
       });
