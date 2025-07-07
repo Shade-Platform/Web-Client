@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import { Eye, EyeOff, Loader2 } from "lucide-react"
 import { useRouter } from 'next/navigation'
+import { useAuth } from "@/lib/auth/authContext";
 
 interface LoginFormProps extends React.ComponentPropsWithoutRef<"div"> {
   setErrorMessage?: (msg: string | null) => void
@@ -24,6 +25,7 @@ export function LoginForm({
   ...props
 }: LoginFormProps) {
   const router = useRouter()
+  const { login } = useAuth()
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
   const [email, setEmail] = useState("")
@@ -51,8 +53,8 @@ export function LoginForm({
 
       const data = await response.json()
 
-      if (response.ok) {
-        localStorage.setItem("token", data.token)
+      if (response.ok && data.token) {
+        await login(data.token)
         router.push("/dashboard")
       } else {
         showError("Invalid email or password.")

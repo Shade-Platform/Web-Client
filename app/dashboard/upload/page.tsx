@@ -8,17 +8,22 @@ import { Badge } from '@/components/ui/badge';
 import { useState, useRef } from 'react';
 import { motion } from "framer-motion";
 import ProtectedRoute from '@/components/ProtectedRoute';
+import { useAuth } from '@/lib/auth/authContext';
 
 function Page() {
-  const [owner, setOwner] = useState("");
   const [name, setName] = useState("");
   const [imageTag, setImageTag] = useState("");
   const [mappedPort, setMappedPort] = useState("");
   const [createdPort, setCreatedPort] = useState(null); // To store port from response
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const successRef = useRef<HTMLDivElement | null>(null);
+  const { user } = useAuth();
 
   const clickHandler = () => {
+    if (user === null) {
+      setError("User not authenticated");
+      return;
+    }
     setError(null);
     setCreatedPort(null);
 
@@ -28,7 +33,7 @@ function Page() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        owner: owner,
+        owner: user.id,
         name: name,
         imageTag: imageTag,
         replicas: 1,
@@ -47,7 +52,6 @@ function Page() {
         successRef.current?.scrollIntoView({ behavior: 'smooth' });
 
         // Clear form
-        setOwner("");
         setName("");
         setImageTag("");
         setMappedPort("");
@@ -65,9 +69,6 @@ function Page() {
           <h1 className="w-full text-center mb-10 scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
             Container Creation
           </h1>
-
-          <Label className='mb-2'>Owner</Label>
-          <Input className="mb-6" value={owner} onChange={(e) => setOwner(e.target.value)} type="text" placeholder="Owner" />
 
           <Label className='mb-2'>Container Name</Label>
           <Input className="mb-6" value={name} onChange={(e) => setName(e.target.value)} type="text" placeholder="Container Name" />
@@ -136,7 +137,7 @@ function Page() {
 
             <Button
               className="mt-6 bg-green-700 hover:bg-green-800 text-white"
-              onClick={() => window.open(`http://localhost:${createdPort}`, "_blank")}
+              onClick={() => window.open(`http://${process.env.NEXT_PUBLIC_MINIKUBE_IP}:${createdPort}`, "_blank")}
             >
               View Container
             </Button>
