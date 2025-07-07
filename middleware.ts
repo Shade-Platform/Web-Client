@@ -13,7 +13,7 @@ export async function middleware(req: NextRequest) {
     const trustCheck = await fetch('http://localhost:8080/trust/score', {
       headers: {
         'User-Agent': req.headers.get('user-agent') || '',
-        'X-Forwarded-For': '172.18.0.1',
+        'X-Forwarded-For': '127.0.0.1',
       },
     });
 
