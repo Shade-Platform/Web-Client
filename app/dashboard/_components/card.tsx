@@ -1,7 +1,7 @@
 "use client"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { TrendingUp, TrendingDown } from "lucide-react"
+import { TrendingUp, TrendingDown, MoveRight } from "lucide-react"
 
 interface DashboardCardProps {
   title: string;
@@ -17,11 +17,18 @@ const DashboardCard: React.FC<DashboardCardProps> = ({ title, value, pastValue }
     percentageChange = ((value - pastValue) / pastValue) * 100
   }
   const percentageChangeFormatted = percentageChange.toFixed(2);
-  const percentageChangeColor = percentageChange >= 0 ? "text-green-500" : "text-red-500";
+  const percentageChangeColor = percentageChange > 0
+    ? "text-green-500"
+    : percentageChange === 0
+      ? "text-gray-500"
+      : "text-red-500";
   const percentageChangeSign = percentageChange > 0 ? "+" : "";
-  const percentageChangeSymbol = percentageChange >= 0
+  const percentageChangeSymbol = percentageChange > 0
     ? <TrendingUp style={{ display: "inline" }} />
-    : <TrendingDown style={{ display: "inline" }} />;
+    : percentageChange === 0
+      ? <MoveRight style={{ display: "inline" }} />
+      : <TrendingDown style={{ display: "inline" }} />;
+
 
   return (
     <Card className="w-full max-w-sm">

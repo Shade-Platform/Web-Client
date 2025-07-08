@@ -1,7 +1,6 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
 
 import {
   Card,
@@ -19,34 +18,25 @@ import {
 } from "@/components/ui/chart"
 import React from "react"
 
-const chartData = [
-  { month: "January", thisYear: 0 },
-  { month: "February", thisYear: 20 },
-  { month: "March", thisYear: 40 },
-  { month: "April", thisYear: 60 },
-  { month: "May", thisYear: 80 },
-  { month: "June", thisYear: 100 },
-]
-
 const chartConfig = {
-  thisYear: {
-    label: "This Year",
+  usage: {
+    label: "% Usage",
     color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig
 
 const getColorForValue = (value: number): string => {
-  const red = Math.min(255, Math.floor((1 - value / 100) * 255));
-  const green = Math.min(255, Math.floor((value / 100) * 255));
+  const red = Math.min(255, Math.floor((value / 100)) * 255);
+  const green = Math.min(255, Math.floor((1 - (value / 100)) * 255));
   return `rgb(${red}, ${green}, 0)`;
 };
 
-const Chart: React.FC<{ title: string }> = ({ title }) => {
+const Chart: React.FC<{ chartData: { time: string, usage: number }[], title: string }> = ({ chartData, title }) => {
   return (
     <Card className="w-full max-w-4xl h-auto">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        {/* <CardDescription>Showing live usage per minute</CardDescription> */}
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -63,26 +53,33 @@ const Chart: React.FC<{ title: string }> = ({ title }) => {
                 {chartData.map((data, index) => (
                   <stop
                     key={index}
-                    offset={`${(index / (chartData.length - 1)) * 100}%`}
-                    stopColor={getColorForValue(data.thisYear)}
+                    offset={chartData.length <= 1? "50%" : `${(index / (chartData.length - 1)) * 100}%`}
+                    stopColor={getColorForValue(data.usage)}
                   />
                 ))}
               </linearGradient>
             </defs>
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="month"
+              dataKey="time"
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
+              tickFormatter={(value) => value}
+            />
+            <YAxis
+              domain={[0, 100]}
+              tickCount={6}
+              tickLine={false}
+              axisLine={false}
+              tickFormatter={(value) => `${value}%`}
             />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
             <Line
-              dataKey="thisYear"
+              dataKey="usage"
               type="natural"
               stroke="url(#desktopGradient)"
               strokeWidth={2}

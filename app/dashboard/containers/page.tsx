@@ -30,18 +30,17 @@ const Containers = () => {
   }
 
   useEffect(() => {
-    if (!user) {
-      setError("User not authenticated")
-      setLoading(false)
-      return
-    }
-
     async function fetchContainers() {
+      if (user === null) {
+        setError("User not authenticated")
+        setLoading(false)
+        return
+      }
       try {
-        const res = await fetch(`http://localhost:8080/container/namespace/${user?.id}`)
+        const res = await fetch(`http://localhost:8080/container/namespace/${user.id}`)
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
 
-        const containers: Container[] = await res.json()
+        const containers: Container[] = (await res.json()).containers
         setData(containers)
       } catch (err: any) {
         setError("Failed to fetch container data")
@@ -68,18 +67,16 @@ const Containers = () => {
         )}
         {!loading && !error && data && data.length > 0 && (
           data.map((container) => (
-            <>
-              <Card className="w-full max-w-4xl cursor-pointer p-4" key={container.name} onClick={() => containerClickHandler(container.name)}>
-                <p><strong>Container Name:</strong> {container.name}</p>
-                <p><strong>Image:</strong> {container.imageTag}</p>
-                <p><strong>Replicas:</strong> {container.replicas}</p>
-                <p><strong>Created At:</strong> {new Date(container.CreationDate).toLocaleString()}</p>
-                <p><strong>Port:</strong> {container.mappedPort}</p>
-                <a href={`http://${process.env.NEXT_PUBLIC_MINIKUBE_IP}:${container.mappedPort}`} target="_blank" className="text-blue-600 hover:underline">
-                  View Container
-                </a>
-              </Card>
-            </>
+            <Card className="w-full max-w-4xl cursor-pointer p-4" key={container.name} onClick={() => containerClickHandler(container.name)}>
+              <p><strong>Container Name:</strong> {container.name}</p>
+              <p><strong>Image:</strong> {container.imageTag}</p>
+              <p><strong>Replicas:</strong> {container.replicas}</p>
+              <p><strong>Created At:</strong> {new Date(container.CreationDate).toLocaleString()}</p>
+              <p><strong>Port:</strong> {container.mappedPort}</p>
+              <a href={`http://${process.env.NEXT_PUBLIC_MINIKUBE_IP}:${container.mappedPort}`} target="_blank" className="text-blue-600 hover:underline">
+                View Container
+              </a>
+            </Card>
           ))
         )}
       </main>

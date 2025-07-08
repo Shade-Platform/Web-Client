@@ -12,7 +12,6 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
 
   useEffect(() => {
     const check = async () => {
-      console.log(user)
       if (user === null && !loading) {
         router.replace("/login")
         setAllowed(false)

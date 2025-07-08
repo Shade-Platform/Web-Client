@@ -37,23 +37,6 @@ export const Navbar = () => {
     verifyToken()
   }, [])
 
-  const handleLogout = () => {
-    logout()
-    router.push("/login")
-  }
-
-  // const loggedOutRoutes: RouteProps[] = [
-  //   { href: "/", label: "Home" },
-  //   { href: "/login", label: "Login" },
-  //   { href: "/signup", label: "Signup" },
-  // ]
-
-  // const routeList: RouteProps[] = [
-  //   { href: "/dashboard", label: "Dashboard" },
-  //   { href: "/dashboard/upload", label: "Upload" },
-  // ]
-
-  // const routeList = isLoggedIn ? loggedInRoutes : loggedOutRoutes
 
   return (
     <header className="sticky border-b-[1px] top-0 z-40 w-full bg-white dark:border-b-slate-700 dark:bg-background">
@@ -82,7 +65,7 @@ export const Navbar = () => {
                 <nav className="flex flex-col gap-2 mt-4">
                   {isLoggedIn ? (
                     <button
-                      onClick={handleLogout}
+                      onClick={() => logout()}
                       className={buttonVariants({ variant: "destructive" })}
                     >
                       Logout
@@ -135,7 +118,7 @@ export const Navbar = () => {
               Github
             </Link>
             {isLoggedIn ? (
-              <Button onClick={handleLogout} variant={"destructive"}>
+              <Button onClick={() => logout()} variant={"destructive"}>
                 Logout
               </Button>
             ) : (

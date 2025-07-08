@@ -48,26 +48,6 @@ const data = {
     },
   ],
   navMain: [
-    // {
-    //   title: "Playground",
-    //   url: "#",
-    //   icon: SquareTerminal,
-    //   isActive: true,
-    //   items: [
-    //     {
-    //       title: "History",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Starred",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Settings",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
     {
       title: "Dashboard",
       url: "/dashboard",
@@ -135,24 +115,7 @@ const data = {
         },
       ],
     },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
+  ]
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
