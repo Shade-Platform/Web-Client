@@ -9,6 +9,7 @@ import { useState, useRef } from 'react';
 import { motion } from "framer-motion";
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { useAuth } from '@/lib/auth/authContext';
+import { SidebarTrigger } from '@/components/ui/sidebar';
 
 function Page() {
   const [name, setName] = useState("");
@@ -34,7 +35,7 @@ function Page() {
       },
       body: JSON.stringify({
         owner: user.id,
-        name: name,
+        name: name.split(" ").join("-").toLowerCase(), 
         imageTag: imageTag,
         replicas: 1,
         mappedPort: Number(mappedPort),
@@ -64,20 +65,22 @@ function Page() {
 
   return (
     <ProtectedRoute>
+      <Navbar />
+      <SidebarTrigger className="sticky top-0" />
       <div className="mx-auto min-h-screen w-full">
         <div className="mt-12 flex flex-col mx-auto px-8 w-lg">
           <h1 className="w-full text-center mb-10 scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
             Container Creation
           </h1>
 
-          <Label className='mb-2'>Container Name</Label>
-          <Input className="mb-6" value={name} onChange={(e) => setName(e.target.value)} type="text" placeholder="Container Name" />
+          <Label htmlFor='container-name' className='mb-2'>Container Name</Label>
+          <Input className="mb-6" id='container-name' name="container-name" value={name} onChange={(e) => setName(e.target.value)} type="text" placeholder="Container Name" />
 
-          <Label className='mb-2'>Image Tag</Label>
-          <Input className='mb-6' value={imageTag} onChange={(e) => setImageTag(e.target.value)} type="text" placeholder="Image Tag" />
+          <Label htmlFor='image-tag' className='mb-2'>Image Tag</Label>
+          <Input className='mb-6' id='image-tag' name="image-tag" value={imageTag} onChange={(e) => setImageTag(e.target.value)} type="text" placeholder="Image Tag" />
 
-          <Label className='mb-2'>Mapped Port</Label>
-          <Input className='mb-6' value={mappedPort} onChange={(e) => setMappedPort(e.target.value)} type="number" placeholder="Port" />
+          <Label htmlFor='mapped-port' className='mb-2'>Mapped Port</Label>
+          <Input className='mb-6' id='mapped-port' name="mapped-port" value={mappedPort} onChange={(e) => setMappedPort(e.target.value)} type="number" placeholder="Port" />
 
           <Button onClick={clickHandler}>
             Submit
